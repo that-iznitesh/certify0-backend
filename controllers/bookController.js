@@ -41,6 +41,21 @@ export const getBooks = async (req, res) => {
   }
 };
 
+
+export const getMyBooks = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const books = await bookModel
+      .find({ addedBy: userId })
+      .populate('addedBy', 'name email')
+      .sort({ createdAt: -1 });
+    
+    res.json({ books });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // Get single book (with user info)
 export const getBookById = async (req, res) => {
   try {
