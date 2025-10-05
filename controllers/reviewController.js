@@ -69,3 +69,20 @@ export const deleteReview = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const getMyReviews = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    
+    // Find all reviews by current user and populate both book and user info
+    const reviews = await Review.find({ userId })
+      .populate('bookId', 'title author')
+      .populate('userId', 'name')
+      .sort({ createdAt: -1 });
+    
+    res.json({ reviews });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
