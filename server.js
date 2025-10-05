@@ -22,7 +22,7 @@ app.use(morgan("dev"));
 // };
 
 app.use(cors());
-
+app.use(cors({ origin: "*" }));
 //routes
 app.use("/api", authRoutes);
 app.use("/api", bookRoutes);
