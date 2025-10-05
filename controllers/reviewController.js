@@ -71,11 +71,12 @@ export const deleteReview = async (req, res) => {
 };
 
 export const getMyReviews = async (req, res) => {
+
   try {
     const userId = req.user._id;
     
     // Find all reviews by current user and populate both book and user info
-    const reviews = await Review.find({ userId })
+    const reviews = await reviewModel.find({ userId })
       .populate('bookId', 'title author')
       .populate('userId', 'name')
       .sort({ createdAt: -1 });
